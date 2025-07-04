@@ -29,6 +29,6 @@
         "libs-path": "libs/"
     },
     "configs": [
-        "config_ir.json"
+        "config_kharej.json"
     ]
 }

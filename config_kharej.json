@@ -1,0 +1,70 @@
+{
+    "name": "kharej",
+    "nodes": [
+        {
+            "name": "my tun",
+            "type": "TunDevice",
+            "settings": {
+                "device-name": "wtun0",
+                "device-ip": "10.10.0.1/24"
+            },
+            "next": "ipovsrc"
+        },
+        {
+            "name": "ipovsrc",
+            "type": "IpOverrider",
+            "settings": {
+                "direction": "up",
+                "mode": "source-ip",
+                "ipv4": "83.147.18.89"
+            },
+            "next": "ipovdest"
+        },
+        {
+            "name": "ipovdest",
+            "type": "IpOverrider",
+            "settings": {
+                "direction": "up",
+                "mode": "dest-ip",
+                "ipv4": "94.232.168.19"
+            },
+            "next": "manip"
+        },
+        {
+            "name": "manip",
+            "type": "IpManipulator",
+            "settings": {
+                "protoswap": 18
+            },
+            "next": "ipovsrc2"
+        },
+        {
+            "name": "ipovsrc2",
+            "type": "IpOverrider",
+            "settings": {
+                "direction": "down",
+                "mode": "source-ip",
+                "ipv4": "10.10.0.2"
+            },
+            "next": "ipovdest2"
+        },
+        {
+            "name": "ipovdest2",
+            "type": "IpOverrider",
+            "settings": {
+                "direction": "down",
+                "mode": "dest-ip",
+                "ipv4": "10.10.0.1"
+            },
+            "next": "rd"
+        },
+        {
+            "name": "rd",
+            "type": "RawSocket",
+            "settings": {
+                "capture-filter-mode": "source-ip",
+                "capture-ip": "94.232.168.19"
+            }
+        }
+    ]
+}
